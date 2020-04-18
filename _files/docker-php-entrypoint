@@ -1,0 +1,47 @@
+#!/bin/sh
+# Author : Virink <virink@outlook.com>
+# Date   : 2019/12/16, 17:12
+
+mysql_ready() {
+    mysqladmin ping -h 127.0.0.1 -uping -pping > /dev/null 2>&1
+}
+
+run_mysql() {
+    /usr/bin/mysqld_safe --user=root --skip-name-resolve --skip-networking=0 &
+}
+
+keep_alive(){
+    while true
+    do
+        mysql_ready
+        if [ $? -ne 0 ]; then
+            run_mysql
+        fi
+        sleep 5s
+    done
+}
+
+# Run MySQL before `source /flag.sh`
+while !(mysql_ready)
+do
+    mysql_ready
+    if [ $? -ne 0 ]; then
+        run_mysql
+    fi
+    sleep 3s
+done
+
+if [[ -f /flag.sh ]]; then
+    echo "[+] Init flag.sh"
+    source /flag.sh
+fi
+
+keep_alive &
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+    set -- apache2-foreground "$@"
+fi
+
+echo "Running..."
+exec "$@"

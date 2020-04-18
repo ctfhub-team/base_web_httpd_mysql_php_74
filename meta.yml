@@ -1,0 +1,8 @@
+name: base_web_httpd_mysql_php_74
+title: 基础镜像 WEB Httpd Mariadb PHP 7.4
+desc: 基础镜像 WEB Httpd Mariadb PHP 7.4
+tags:
+  - web
+  - httpd
+  - php7.4
+  - mariadb
