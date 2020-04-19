@@ -31,7 +31,7 @@ do
     sleep 3s
 done
 
-if [[ -f /flag.sh ]]; then
+if [ -f /flag.sh ]; then
     echo "[+] Init flag.sh"
     source /flag.sh
 fi
